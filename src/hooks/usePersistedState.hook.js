@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 const usePersistedState = (key, value) => {
   //Fetch and turn to number / json
@@ -10,9 +10,12 @@ const usePersistedState = (key, value) => {
   const [currentValue, setCurrentValue] = useState(currentLocalValue);
 
   //Store in localstorage this new value using state :
-  useEffect(() => {
-    localStorage.setItem(key, JSON.stringify(currentValue));
-  }, [currentValue]);
+  useEffect(
+    (key) => {
+      localStorage.setItem(key, JSON.stringify(currentValue));
+    },
+    [currentValue]
+  );
 
   //return for use
   return [currentValue, setCurrentValue];

@@ -8,8 +8,7 @@ import cookieSrc from "../cookie.svg";
 import Item from "./Item";
 
 import items from "../data";
-
-import { AppContext } from "./App";
+import { GameContext } from "./GameContext";
 
 const Game = () => {
   const {
@@ -19,7 +18,7 @@ const Game = () => {
     setPurchasedItems,
     incrementCookies,
     calculateCookiesPerSecond,
-  } = useContext(AppContext);
+  } = useContext(GameContext);
 
   console.log(numCookies);
 
