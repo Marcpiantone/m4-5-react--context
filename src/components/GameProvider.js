@@ -25,6 +25,9 @@ export const GameProvider = ({ children }) => {
       return acc + value * numOwned;
     }, 0);
   };
+
+  let cookiesPerSecond = calculateCookiesPerSecond(purchasedItems);
+
   return (
     <GameContext.Provider
       value={{
@@ -33,7 +36,7 @@ export const GameProvider = ({ children }) => {
         purchasedItems,
         setPurchasedItems,
         incrementCookies,
-        calculateCookiesPerSecond,
+        cookiesPerSecond,
       }}
     >
       {children}
