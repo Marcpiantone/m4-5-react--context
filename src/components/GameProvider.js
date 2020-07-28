@@ -41,7 +41,7 @@ export const GameProvider = ({ children }) => {
       console.log(
         `ELAPSED ${Math.floor(timeDiff / 1000)} sec - ${
           timeDiffInSecBiggerThan0 * cookiesPerSecond
-        } cookies added`
+        } cookies added while away`
       );
     }
   }, [timeDiffInSecBiggerThan0]);
