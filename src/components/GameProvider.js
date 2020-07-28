@@ -10,7 +10,11 @@ export const GameProvider = ({ children }) => {
     1000
   );
 
-  console.log(`Time elapsed ${Math.round(timeDiff / 1000)} sec`);
+  const timeDiffInSecBiggerThan0 =
+    Math.round(timeDiff / 1000) > 0 ? Math.round(timeDiff / 1000) : 1;
+
+  if (Math.round(timeDiff / 1000) > 1)
+    console.log("ELAPSED" + Math.round(timeDiff / 1000) + "s");
 
   const [purchasedItems, setPurchasedItems] = usePersistedState("items", {
     cursor: 0,
@@ -28,7 +32,7 @@ export const GameProvider = ({ children }) => {
       const item = items.find((item) => item.id === itemId);
       const value = item.value;
 
-      return (acc + value * numOwned) * Math.round(timeDiff / 1000);
+      return (acc + value * numOwned) * timeDiffInSecBiggerThan0;
     }, 0);
   };
 
