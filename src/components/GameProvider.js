@@ -5,7 +5,13 @@ import usePersistedState from "../hooks/usePersistedState.hook";
 import items from "../data";
 
 export const GameProvider = ({ children }) => {
-  const [numCookies, setNumCookies] = usePersistedState("num-cookies", 1000);
+  const [numCookies, setNumCookies, timeDiff] = usePersistedState(
+    "num-cookies",
+    1000
+  );
+
+  console.log(`Time elapsed ${Math.round(timeDiff / 1000)} sec`);
+
   const [purchasedItems, setPurchasedItems] = usePersistedState("items", {
     cursor: 0,
     grandma: 0,
@@ -22,7 +28,7 @@ export const GameProvider = ({ children }) => {
       const item = items.find((item) => item.id === itemId);
       const value = item.value;
 
-      return acc + value * numOwned;
+      return (acc + value * numOwned) * Math.round(timeDiff / 1000);
     }, 0);
   };
 
