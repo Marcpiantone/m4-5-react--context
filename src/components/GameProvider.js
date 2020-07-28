@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { GameContext } from "./GameContext";
 import usePersistedState from "../hooks/usePersistedState.hook";
@@ -11,10 +11,7 @@ export const GameProvider = ({ children }) => {
   );
 
   const timeDiffInSecBiggerThan0 =
-    Math.round(timeDiff / 1000) > 0 ? Math.round(timeDiff / 1000) : 1;
-
-  if (Math.round(timeDiff / 1000) > 1)
-    console.log("ELAPSED" + Math.round(timeDiff / 1000) + "s");
+    Math.floor(timeDiff / 1000) > 0 ? Math.floor(timeDiff / 1000) : 1;
 
   const [purchasedItems, setPurchasedItems] = usePersistedState("items", {
     cursor: 0,
@@ -32,11 +29,22 @@ export const GameProvider = ({ children }) => {
       const item = items.find((item) => item.id === itemId);
       const value = item.value;
 
-      return (acc + value * numOwned) * timeDiffInSecBiggerThan0;
+      return acc + value * numOwned;
     }, 0);
   };
 
   let cookiesPerSecond = calculateCookiesPerSecond(purchasedItems);
+
+  useEffect(() => {
+    if (timeDiffInSecBiggerThan0 > 1) {
+      setNumCookies((c) => c + timeDiffInSecBiggerThan0 * cookiesPerSecond);
+      console.log(
+        `ELAPSED ${Math.floor(timeDiff / 1000)} sec - ${
+          timeDiffInSecBiggerThan0 * cookiesPerSecond
+        } cookies added`
+      );
+    }
+  }, [timeDiffInSecBiggerThan0]);
 
   return (
     <GameContext.Provider
@@ -47,6 +55,7 @@ export const GameProvider = ({ children }) => {
         setPurchasedItems,
         incrementCookies,
         cookiesPerSecond,
+        timeDiffInSecBiggerThan0,
       }}
     >
       {children}
